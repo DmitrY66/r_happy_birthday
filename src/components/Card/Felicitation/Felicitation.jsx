@@ -4,7 +4,7 @@ import { textContext } from '../../../context/textContext';
 
 const Felicitation = () => {
   const { text } = useContext(textContext);
-  console.log('text: ', text);
+  // console.log('text: ', text);
 
   return (
     <p className={style.felicitation}>

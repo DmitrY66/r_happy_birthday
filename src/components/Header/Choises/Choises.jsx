@@ -1,29 +1,13 @@
 import { useState, useContext } from 'react';
-import { holidayContext } from '../../../context/holidayContext';
+import { holidaysContext } from '../../../context/holidaysContext';
 import style from './Choises.module.css';
-
-const holidays = {
-  newyear: 'Новый год',
-  birthdayWomen: 'День рождения Ж',
-  birthdayMen: 'День рождения M',
-  womenday: '8 марта',
-  knowledgeday: 'День знаний',
-};
 
 const Choises = () => {
   const [isOpenChoises, setIsOpenChoises] = useState(false);
-  // const [holiday, setHoliday] = useState('Выбрать праздник');
-
-  const { holiday, setHoliday } = useContext(holidayContext);
-  console.log('holiday: ', holiday);
+  const { holidays, holiday, changeHoligay } = useContext(holidaysContext);
 
   const toggleChoises = () => {
     setIsOpenChoises(!isOpenChoises);
-  };
-
-  const changeHoligay = nameHoliday => {
-    setHoliday(nameHoliday);
-    toggleChoises();
   };
 
   return (
@@ -31,7 +15,9 @@ const Choises = () => {
       <button
         className={style.button}
         onClick={toggleChoises}
-      >{holiday}</button>
+      >
+        {holidays[holiday] || 'Выбрать праздник'}
+      </button>
       {
         isOpenChoises && (
           <ul className={style.list}>
@@ -41,9 +27,12 @@ const Choises = () => {
                   className={style.itemlist}
                   key={item[0]}
                   onClick={() => {
-                    changeHoligay(item[1]);
+                    changeHoligay(item[0]);
+                    toggleChoises();
                   }}
-                >{item[1]}</li>
+                >
+                  {item[1]}
+                </li>
               ))
             }
           </ul>
