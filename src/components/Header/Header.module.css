@@ -30,6 +30,10 @@
   margin-right: 30px;
 }
 
+.button:disabled {
+  background-color: #b4d0c7;
+}
+
 @media (max-width: 1024px) {
   .wrapper {
     flex-direction: column;

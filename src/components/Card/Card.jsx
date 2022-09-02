@@ -7,7 +7,6 @@ const Card = () => {
     <div className={style.card}>
       <div className={style.wrapper}>
         <div className={style.image}>
-          {/* <ImageCard img={CardBG} /> */}
           <ImageCard />
           <Felicitation />
         </div>

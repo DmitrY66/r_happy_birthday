@@ -1,14 +1,23 @@
-import { useState, useContext } from 'react';
-import { holidaysContext } from '../../../context/holidaysContext';
+import { useEffect, useState } from 'react';
 import style from './Choises.module.css';
+import { useSelector, useDispatch } from "react-redux";
+import { fetchHolidays, setHoliday } from '../../../store/holidaysSlice';
+import { fetchText } from '../../../store/textSlice';
+import { fetchImg } from '../../../store/imgSlice';
 
 const Choises = () => {
   const [isOpenChoises, setIsOpenChoises] = useState(false);
-  const { holidays, holiday, changeHoligay } = useContext(holidaysContext);
+  const { holiday, holidays, loading } = useSelector(state => state.holidays);
+  const dispatch = useDispatch();
 
   const toggleChoises = () => {
+    if (loading !== 'success') return;
     setIsOpenChoises(!isOpenChoises);
   };
+
+  useEffect(() => {
+    dispatch(fetchHolidays());
+  }, [dispatch]);
 
   return (
     <div className={style.wrapper}>
@@ -16,7 +25,11 @@ const Choises = () => {
         className={style.button}
         onClick={toggleChoises}
       >
-        {holidays[holiday] || 'Выбрать праздник'}
+        {
+          loading !== 'success' ?
+            'Загрузка...' :
+            holidays[holiday] || 'Выбрать праздник'
+        }
       </button>
       {
         isOpenChoises && (
@@ -27,7 +40,9 @@ const Choises = () => {
                   className={style.itemlist}
                   key={item[0]}
                   onClick={() => {
-                    changeHoligay(item[0]);
+                    dispatch(setHoliday(item[0]));
+                    dispatch(fetchText(item[0]));
+                    dispatch(fetchImg(item[0]));
                     toggleChoises();
                   }}
                 >
